@@ -1,5 +1,7 @@
 import java.util.Scanner;
 
+// 23,4,인텔리제이 갱신완료
+
 public class left_Coin {
     public static void main(String[] args) {
 
