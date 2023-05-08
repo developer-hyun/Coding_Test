@@ -8,6 +8,8 @@ import java.util.StringTokenizer;
 
 public class Game_Develop {
     public static int start_dotd;
+    public static int[] dx = {-1,0,1,0};
+    public static int[] dy = {0,1,0,-1};
 
     public static void trun() {
         start_dotd -=1;
@@ -47,11 +49,14 @@ public class Game_Develop {
         System.out.println(start_dotd);
         System.out.println(Arrays.deepToString(map));
 
-        int[][] visit = new int[start_dotx][start_doty]; //방문한 좌표
+        int[][] visit = new int[N][M]; //방문한 좌표 체크
+        visit[start_dotx][start_doty] =1; //현재 위치 체크
+
         int count = 0; //최종 방문 카운트 된 좌표
 
         while(true) {
             trun(); //조건 1임. 왼쪽으로 회전한 상태.
+            int
 
 
 
