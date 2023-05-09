@@ -52,18 +52,32 @@ public class Game_Develop {
         int[][] visit = new int[N][M]; //방문한 좌표 체크
         visit[start_dotx][start_doty] =1; //현재 위치 체크
 
-        int count = 0; //최종 방문 카운트 된 좌표
+        int count = 1; //최종 방문 카운트 된 좌표
+        int trun_count = 0; //회전 횟수
 
         while(true) {
             trun(); //조건 1임. 왼쪽으로 회전한 상태.
-            int
+            int nx = start_dotx + dx[start_dotd];
+            int ny  = start_doty + dx[start_doty];
+            if (visit[nx][ny] ==0 && map[nx][ny] ==0) {
+                map[nx][ny] =1;
+                start_dotx = nx;
+                start_doty = ny;
+                count +=1;
+                trun_count = 0;
+            }
+            else trun_count +=1;
+            if(trun_count ==4) {
+                nx  = start_dotx - dx[start_dotd];
+                ny = start_doty - dx[start_doty];
 
-
-
-
+            if (map[nx][ny] ==0) {
+                start_dotx = nx;
+                start_doty = ny;
+            } }
+            else break;
+            trun_count =0;
         }
-
-
-
+        System.out.println(count);
     }
 }
