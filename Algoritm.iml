@@ -7,6 +7,7 @@
       <sourceFolder url="file://$MODULE_DIR$/Kakao" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/23.04/0.GREEDY" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/1.implement" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/2.DFS_BFS" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
