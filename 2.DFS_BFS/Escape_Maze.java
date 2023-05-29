@@ -37,31 +37,31 @@ public class Escape_Maze {
     public static int[] dy = {0,0,-1,1};
 
 
-    public static int bfs(int x,int y) {
+    public static int bfs(int x, int y) {
         Queue<Node1> q = new LinkedList<>();
-        q.offer(new Node1(x,y));
+        q.offer(new Node1(x, y));
 
-        while (!q.isEmpty()){
+        while (!q.isEmpty()) {
             Node1 node1 = q.poll();
-            int getx = node1.getX();
-            int gety = node1.getY();
-
-            for (int i=0; i<4 ; i++){
-                int nx = getx + dx[i];
-                int ny = gety + dy[i];
-
-                if ( nx < 0 || ny < 0 || nx >=N || ny >= M) {
-                    continue;
-                }
-                //벽
-                if (graph[nx][ny] == 0) {
-                    continue;
-                }
+            x = node1.getX();
+            y = node1.getY();
+            // 현재 위치에서 4가지 방향으로의 위치 확인
+            for (int i = 0; i < 4; i++) {
+                int nx = x + dx[i];
+                int ny = y + dy[i];
+                // 미로 찾기 공간을 벗어난 경우 무시
+                if (nx < 0 || nx >= N || ny < 0 || ny >= M) continue;
+                // 벽인 경우 무시
+                if (graph[nx][ny] == 0) continue;
+                // 해당 노드를 처음 방문하는 경우에만 최단 거리 기록
                 if (graph[nx][ny] == 1) {
-                    
+                    graph[nx][ny] = graph[x][y] + 1;
+                    q.offer(new Node1(nx, ny));
                 }
             }
+
         }
+        return graph[N][M];
     }
 
 
@@ -82,6 +82,7 @@ public class Escape_Maze {
             }
         }
 
+        System.out.println(bfs(1,1));
 
         int result =0;
 
