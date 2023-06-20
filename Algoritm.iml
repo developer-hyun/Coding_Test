@@ -9,6 +9,7 @@
       <sourceFolder url="file://$MODULE_DIR$/1.implement" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/2.DFS_BFS" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/3.SORT" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/4.Binary_Sort" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
