@@ -16,7 +16,29 @@ public class Muji_EatingLive {
     //섭취할 음식이 없을 경우 -1을 리턴하기위해 한 변수를 foor_times배열의 길이만큼 정하고  무지가 먹을때마다 -1씩해주는데  food_times배열에 끝에 도달했을때 배열길이랑 똑같으면(음식을 다먹은것)-1을 리턴한다.
     //K초후에 해당 food_times의 배열 위치를 반환하면 된다.
 
+    class Collection implements Comparable<Collection> {
 
+        private int time;
+        private int index;
+
+        public Collection(int time, int index) {
+            this.time = time;
+            this.index = index;
+        }
+
+        public int getTime(){
+            return this.time;
+        }
+        public int getIndex() {
+            return this.index;
+        }
+
+        //우선순위를 주어야함  이때 시간이 짧은것이 우선순위가 높음
+        @Override
+        public int compareTo(Collection col) {
+            return Integer.compare(this.time, col.time);
+        }
+    }
 
 
     public static void main(String[] args) {
