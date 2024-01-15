@@ -1,3 +1,5 @@
+import java.util.PriorityQueue;
+
 public class Muji_EatingLive {
 
 
@@ -16,7 +18,16 @@ public class Muji_EatingLive {
     //섭취할 음식이 없을 경우 -1을 리턴하기위해 한 변수를 foor_times배열의 길이만큼 정하고  무지가 먹을때마다 -1씩해주는데  food_times배열에 끝에 도달했을때 배열길이랑 똑같으면(음식을 다먹은것)-1을 리턴한다.
     //K초후에 해당 food_times의 배열 위치를 반환하면 된다.
 
-    class Collection implements Comparable<Collection> {
+
+
+    //ex)4 5 9  초가걸림..  1번음식은 4개  , 2번음식은 5개 , 3번음식은 9개
+    //가장 적은 음식이 1번 4개이며 음식의 개수는 3개임.  가장 작은 음식을 다 먹기 위해서는 12초가필요함.
+    //K가 15초라하면   K에서 가장 적게걸리는 음식을 뺀 15-12  = 3초가남음
+    //이때 남은 음식은 2번음식 1개 3번음식 5개   가장 적게 걸리는 음식은 음식의 개수 2개 x 음식양 1개 = 2초.
+    //K가 3초가남았음으로 3초 - 2초 = 1초.   이때 3번음식만 4개가남아있다. 음식의 개수1개  x 음식양 4개 = 4초
+    //K가 남은 최소음식의 초수보다 작음으로 빼지않고 1초가남았음으로 그 다음에 음식을 선택하면된다.  3번음식.
+
+    static class Collection implements Comparable<Collection> {
 
         private int time;
         private int index;
@@ -42,6 +53,44 @@ public class Muji_EatingLive {
 
 
     public static void main(String[] args) {
+
+        soulution(new int[] {8,4,9},15);
+
+
+    }
+    public static int soulution(int[] food_times,long k) {
+
+        //문제 조건에 중단된 이후에 섭취할 음식이 없으면 -1 반환 즉 food_times의 시간이 k보다 작으면 -1 반환
+        long impossible_time =0;
+        for ( int i =0 ; i< food_times.length ; i++ ) {
+            impossible_time += food_times[i];
+        }
+        if(impossible_time <=k) {
+            return -1;
+        }
+
+        //[음식시간, 음식번호] 형식으로 우선순위 큐에 넣는다.
+        PriorityQueue<Collection> food = new PriorityQueue<>();
+        for(int i=0 ; i< food_times.length ; i++) {
+            food.offer(new Collection(food_times[i],i+1));
+        }
+        //원소에 들어갈때 시간이 적은순대로 들어간다.
+       // System.out.println(food.peek().getTime());
+
+
+        //K초 안에  남은음식을 다 먹을 수 있냐 여부를 체크함
+        //큐의 원소를 수정할 수 없기 때문에  음식의 최소초수 x 남은음식개수 <= k  에서 음식의 최소초수에 변수를 추가해야함,
+        //
+
+
+
+        return 1;
+
+
+
+
+
+
     }
 
 //    public int solution(int k) {
