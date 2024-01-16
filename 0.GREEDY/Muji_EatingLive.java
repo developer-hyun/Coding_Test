@@ -1,4 +1,4 @@
-import java.util.PriorityQueue;
+import java.util.*;
 
 public class Muji_EatingLive {
 
@@ -54,7 +54,7 @@ public class Muji_EatingLive {
 
     public static void main(String[] args) {
 
-        soulution(new int[] {8,4,9},15);
+        System.out.println(soulution(new int[] {3,1,2},5));
 
 
     }
@@ -80,11 +80,65 @@ public class Muji_EatingLive {
 
         //K초 안에  남은음식을 다 먹을 수 있냐 여부를 체크함
         //큐의 원소를 수정할 수 없기 때문에  음식의 최소초수 x 남은음식개수 <= k  에서 음식의 최소초수에 변수를 추가해야함,
-        //
+        //예를들어 [4,3] , [6,2] , [8,1] 일 경우에는 12초(첫음식시간=이전에 걸렸던 시간의 총합)  +  (6초(현재음식시간) - 4초(이전음식시간)) X 남은음식개수(2개) <= k(15초) 라는 식으로
+        // 음식시간의 최솟값이 k보다 작을 때 까지를 구해야한다.
+        //이전에 걸렸던 시간의 총합 +  (현재 음식시간 - 이전음식시간) X 남은음식개수 <= K 가 된다.
+        long before_total_time =0; //이전에 걸렸던 시간의 총합
+        long present_food_time1=food.peek().getTime(); //현재 음식시간;
+        long before_food_time=0; //이전 음식 시간
+        int length = food.size();
+     //   System.out.println(present_food_time1);
+      //  System.out.println(food.peek().getTime());
 
+//        long before_total_time=0;
+//        long before_food_time=0;
+//        long length = food_times.length;
 
+        //food.peek().gettime의 문제
 
-        return 1;
+        while (before_total_time + ((food.peek().getTime()) - (before_food_time) * food.size()) <= k) {   //이전에 걸렸던 시간의 총합 +  (현재 음식시간 - 이전음식시간) X 남은음식개수 <= K
+           int present_food_time = food.poll().getTime();
+            before_total_time += (present_food_time-before_food_time) * length;
+            length -=1;
+            before_food_time = present_food_time;
+
+//            present_food_time = food.poll().getTime();
+//            before_total_time += (present_food_time - before_food_time) * length;
+//            length -=1;
+//            before_food_time = present_food_time;
+
+         //   present_food_time = food.peek().getTime(); //현재 음식시간
+        }
+
+        //comparable 자기자신과 매개변수를 비교함 compareTo 메소드를 구현해야한다.  인터페이스여서 선언된 메소드를 반드시 구현해야한다
+        //comparator는 두 매개변수를 비교한다. 인터페이스여서 선언된 메소드를 반드시 구현해야한다.
+        //우선순위 큐로 comparator 비교를 할 경우
+        //reason: no instance(s) of type variable(s) T exist so that PriorityQueue<Collection> conforms to List<T>
+        //comparator는 우선순위 큐로는 비교가 불가능한것같다.
+        //그래서 배열에 넣어본다.
+        ArrayList<Collection> result = new ArrayList<>();
+        while (!food.isEmpty()) {
+            result.add(food.poll());
+        }
+
+        //food 큐의 순서를 다시 인덱스 번호대로 정렬
+        Collections.sort(result, new Comparator<Collection>() {
+
+            @Override
+            public int compare (Collection a, Collection b){
+                return Integer.compare(a.getIndex(), b.getIndex());
+            }
+        });
+        //정확하지는 않지만 (int)는 해당 값을 int로 변환해주는것같다.
+       // System.out.println(before_total_time);
+      //  System.out.println(before_food_time);
+      //  System.out.println(present_food_time);
+
+//        for(int i=0 ; i<result.size(); i++) {
+//            System.out.println(result.get(i).getTime());
+//        }
+        //System.out.println(result.get(0).getIndex());
+        return result.get((int) (k-before_total_time) % length).getIndex();
 
 
 
