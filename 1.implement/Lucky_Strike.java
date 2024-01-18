@@ -14,17 +14,26 @@ public class Lucky_Strike {
     public static void main(String[] args) throws IOException {
 
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
-       // int N =Integer.parseInt(bf.readLine());
+
         String N = bf.readLine();
         int length = N.length();
-        System.out.println(length);
+        int front_num =0;
+        int back_num=0; //오른쪽 자리수 합 체크 변수
 
         for(int i=0 ; i<length; i++) {  //charAt - '0'
-
-
+            if(i<=(length/2)-1) {
+                front_num += N.charAt(i) - '0'; //아스키 코드 응용
+            }
+            else{
+                back_num += N.charAt(i) - '0';
+            }
         }
-
-
+        if(front_num == back_num) {
+            System.out.println("LUCKY");
+        }
+        else {
+            System.out.println("STRIKE");
+        }
 
     }
 }
