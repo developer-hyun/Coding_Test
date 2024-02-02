@@ -21,8 +21,8 @@ public class Lock_And_Key {
     public static void main(String[] args) {
         Solution solution = new Solution();
         int[][] key = {{0,0,0},{1,0,0},{0,1,1}};
-        int[][] lock = {{0,0,0,0,0,0},{0,0,0,0,0,0},{0,0,1,1,0,0},{0,0,1,1,0,0},{0,0,0,0,0,0},{0,0,0,0,0,0}};
-    //    int[][] lock = {{1,1,1},{1,1,0},{1,0,1}};
+      //  int[][] lock = {{0,0,0,0,0,0},{0,0,0,0,0,0},{0,0,1,1,0,0},{0,0,1,1,0,0},{0,0,0,0,0,0},{0,0,0,0,0,0}};
+        int[][] lock = {{1,1,1},{1,1,0},{1,0,1}};
         System.out.println(solution.check(lock));
       //  System.out.println(solution.solution(key,lock));
         //000000
@@ -36,63 +36,29 @@ public class Lock_And_Key {
 
 
 class Solution {
-    public boolean solution(int[][] key, int[][] lock) {
-        boolean answer = true;
-
-        //1.키는 자물쇠의 범위를 벗어날수 있기 때문에 자물쇠를 3배늘려서 확인하는편이 낫다.
-        int N = key.length;
-        int M = lock.length;
-        //자물쇠 3배확대
-        int[][] big_lock = new int[M * 3][M * 3];
-        for (int i = 0; i < M; i++) {
-            for (int j = 0; j < M; j++) {
-                big_lock[M + i][M + j] = lock[i][j];
-            }
-        }
-
-        //4.키를 4방향씩 돌리며 자물쇠에 넣는다.
-        for(int i=0 ;i<4 ; i++ ) {
-            int[][] new_key = rotation(key);
-
-
-            //큰 자물쇠는 0,0에서 시작한다.
-            for( int j=0 ; j<N*3; j++) {  // for( int j=0 ; j<N*3; j++) {   //
-                for(int k=0; k<N*3; k++) {  //  for(int k=0; k<N*3; k++) {
-
-                    //자물쇠에 키를 넣어본다
-                    for(int t=0; t<N;t++) {
-                        for ( int y=0 ; y<N; y++) {
-                            big_lock[j+t][k+y] += key[t][y];  //자물쇠에 키의 원소값을 추가한다 = 넣는다. 이때 큰자물쇠의for문을 j<N*3을 해주면 범위가넘어간다.(키의범위도있기때문에)
-                        }
-                    }
-
-                }
-            }
-        }
-        return true;
-    }
-//2.자물쇠의 0,0 부터시작하여 키를 4방향으로 돌리면서 확인해야하기때문에 90도씩 돌리는 함수가 필요하다.
+    //2.자물쇠의 0,0 부터시작하여 키를 4방향으로 돌리면서 확인해야하기때문에 90도씩 돌리는 함수가 필요하다.
     public static int[][] rotation(int[][] key) {
         int n = key.length;
-        int m = key.length;
-        int[][] new_key = key;
+        int m = key[0].length;
+        int[][] new_key = new int[n][m];
 
-        for(int i=0 ; i<n; i++) {
-            for (int j=0 ; j<m; j++) {
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
                 //90도를 돌려야한다.  //돌리면 열이 행이된다. //이때 역순으로 들어가기때문에 n(기존행) - i(현재행)-1을 해줘야 역순이된다. //0,0은 0,3이되고 1,0은 0,1이되고 2,2는 2,0이됨
-                new_key[j][n-i-1] = key[i][j];
+                new_key[j][n - i - 1] = key[i][j];
             }
         }
         return new_key;
     }
+
     //3.키를 넣었을때 자물쇠가 전부다 1 인지 확인하는 부분이 필요하다.
     public static boolean check(int[][] big_lock) {
-        int n = big_lock.length;
-        int m = big_lock.length;
+       // int n = big_lock.length;
+        int ad_n = big_lock.length / 3;
 
-        for(int i = n/3 ; i<n/3*2 ; i++) {
-            for(int j=n/3; j<n/3*2; j++) {
-                if(big_lock[i][j] != 1) {
+        for (int i = ad_n; i < ad_n * 2; i++) {
+            for (int j = ad_n; j < ad_n * 2; j++) {
+                if (big_lock[i][j] != 1) {
                     return false;
                 }
             }
@@ -100,7 +66,83 @@ class Solution {
         return true;
     }
 
+
+    public boolean solution(int[][] key, int[][] lock) {
+        boolean answer = true;
+
+        //1.키는 자물쇠의 범위를 벗어날수 있기 때문에 자물쇠를 3배늘려서 확인하는편이 낫다.
+        int m = key.length;
+        int n = lock.length;
+        //자물쇠 3배확대
+        int[][] big_lock = new int[n * 3][n * 3];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                big_lock[n + i][n + j] = lock[i][j];
+            }
+        }
+
+        //4.키를 4방향씩 돌리며 자물쇠에 넣는다.
+        for (int ro = 0; ro < 4; ro++) {
+            key = rotation(key);
+
+
+            //큰 자물쇠는 0,0에서 시작한다.
+            for (int x = 0; x < n * 2; x++) {  // for( int j=0 ; j<N*3; j++) {   //키의 크기때문에 N*2까지만
+                for (int y = 0; y < n * 2; y++) {  //  for(int k=0; k<N*3; k++) {
+
+                    //자물쇠에 키를 넣어본다
+                    for (int i = 0; i < m; i++) {
+                        for (int j = 0; j < m; j++) {
+                            big_lock[x+i][y + j] += key[i][j];  //자물쇠에 키의 원소값을 추가한다 = 넣는다. 이때 큰자물쇠의for문을 j<N*3을 해주면 범위가넘어간다.(키의범위도있기때문에)
+                        }
+                    }
+                    //자물쇠가 다 1이라면 true인것이다.
+                    if (check(big_lock)) {
+                        return true;
+                    }
+
+                    //아니라면 자물쇠에서 키를 빼야한다.
+                    for (int i = 0; i < m; i++) {
+                        for (int j = 0; j < m; j++) {
+                            big_lock[x+i][y+j] -= key[i][j];
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
 }
+////2.자물쇠의 0,0 부터시작하여 키를 4방향으로 돌리면서 확인해야하기때문에 90도씩 돌리는 함수가 필요하다.
+//    public static int[][] rotation(int[][] key) {
+//        int n = key.length;
+//        int m = key[0].length;
+//        int[][] new_key = new int[n][m];
+//
+//        for(int i=0 ; i<n; i++) {
+//            for (int j=0 ; j<m; j++) {
+//                //90도를 돌려야한다.  //돌리면 열이 행이된다. //이때 역순으로 들어가기때문에 n(기존행) - i(현재행)-1을 해줘야 역순이된다. //0,0은 0,3이되고 1,0은 0,1이되고 2,2는 2,0이됨
+//                new_key[j][n-i-1] = key[i][j];
+//            }
+//        }
+//        return new_key;
+//    }
+//    //3.키를 넣었을때 자물쇠가 전부다 1 인지 확인하는 부분이 필요하다.
+//    public static boolean check(int[][] big_lock) {
+//        int n = big_lock.length;
+//        int ad_n = big_lock.length/3;
+//
+//        for(int i = ad_n ; i<ad_n*2 ; i++) {
+//            for(int j=ad_n; j<ad_n*2; j++) {
+//                if(big_lock[i][j] != 1) {
+//                    return false;
+//                }
+//            }
+//        }
+//        return true;
+//    }
+
+
 
 //3.키를 넣었을때 자물쇠가 전부다 1 인지 확인하는 부분이 필요하다.
 
