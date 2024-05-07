@@ -76,7 +76,7 @@ public class Snake {
             int nx = head_x + move_x[num_direction];
             int ny = head_y + move_y[num_direction];
 
-            if()
+           // if()
 
         }
 
