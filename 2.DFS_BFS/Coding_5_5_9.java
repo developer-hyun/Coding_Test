@@ -46,16 +46,17 @@ public class Coding_5_5_9 {
     }
     public static void bfs(int x) {
         visited[x] = true;
-        Queue<Integer> q = new LinkedList<>();
-        q.offer(x);
-        while (!q.isEmpty()){
-            int y = q.poll();
-            System.out.println(y+" ");
-            for(int i=0;i<graph.get(y).size();i++){
-                int z = graph.get(y).get(i);
-                if(!visited[z]){
-                    q.offer(z);
-                    visited[z]=true;
+        Queue<Integer> queue = new LinkedList<>();
+        queue.offer(x);
+        while (!queue.isEmpty()){
+            int nowX = queue.poll();
+            System.out.println(nowX+" ");
+            //뽑은 원소와 연결된 -> graph에있는 원소 저장
+            for(int i=0;i<graph.get(nowX).size();i++){
+                int nowY = graph.get(nowX).get(i);
+                if(!visited[nowY]){
+                    queue.offer(nowY);
+                    visited[nowY]=true;
                 }
             }
         }
